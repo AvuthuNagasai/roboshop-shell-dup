@@ -10,7 +10,7 @@ dnf module enable nodejs:18 -y &>>/tmp/roboshop.log
 echo -e "${color} installing nodejs ${nocolor}"
 dnf install nodejs -y &>>/tmp/roboshop.log
 echo -e "${color} adding user ${nocolor}"
-useradd roboshop
+useradd roboshop &>>/tmp/roboshop.log
 echo -e "${color} create app directory ${nocolor}"
 rm -rf /app
 mkdir /app
@@ -22,15 +22,15 @@ unzip /tmp/$component.zip &>>/tmp/roboshop.log
 echo -e "${color} download the dependencies ${nocolor}"
 cd /app
 npm install &>>/tmp/roboshop.log
-echo -e "\e[33m Setting up SystemD Catalogue Service ${nocolor}"
+echo -e "${color} Setting up SystemD Catalogue Service ${nocolor}"
 cp  /root/roboshop-shell/$component.service /etc/systemd/system/$component.service
 
 
 echo -e "${color} starting catalogue ${nocolor}"
 
 systemctl daemon-reload
-systemctl enable $component
-systemctl start $component
+systemctl enable $component &>>/tmp/roboshop.log
+systemctl start $component &>>/tmp/roboshop.log
 
 echo -e "${color} copy mongodb repo file ${nocolor}"
 cp /root/roboshop-shell/mongodb.repo /etc/yum.repos.d/mongo.repo &>>/tmp/roboshop.log
