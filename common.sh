@@ -25,10 +25,10 @@ nodejs() {
   echo -e "${color} download the dependencies ${nocolor}"
   cd ${app_path} &>>log_file
   npm install &>>log_file
-  echo -e "${app_path} Setting up SystemD ${component} Service ${nocolor}"
+  echo -e "${color} Setting up SystemD ${component} Service ${nocolor}"
   cp  /root/roboshop-shell-dup/${component}.service /etc/systemd/system/${component}.service &>>log_file
 
-  echo -e "${app_path} starting ${component} ${nocolor}"
+  echo -e "${color} starting ${component} ${nocolor}"
 
   systemctl daemon-reload &>>log_file
   systemctl enable ${component} &>>log_file
