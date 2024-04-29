@@ -104,13 +104,20 @@ maven() {
 python() {
   echo -e "${color} Install Python${nocolor}"
   yum install python36 gcc python3-devel -y &>>$log_file
-
+   # shellcheck disable=SC1009
+   if [ $? -eq 0 ]; then
+     echo "success"
+   else
+     echo "failure"
   app_presetup
   
   echo -e "${color} Install Application Dependencies ${nocolor}"
   cd /app
   pip3.6 install -r requirements.txt &>>$log_file
-  echo $?
+   if [ $? -eq 0]; then
+       echo "success"
+     else
+       echo "failure
 
   systemd_setup
 }
