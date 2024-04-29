@@ -8,11 +8,11 @@ app_presetup() {
 
   echo -e "${color} adding user ${nocolor}"
   useradd roboshop &>>log_file
-
+  echo $?
   echo -e "${color} create app directory ${nocolor}"
   rm -rf ${app_path} &>>log_file
-
   mkdir ${app_path} &>>log_file
+  echo $?
 
   echo -e "${color} Download the application code to created app directory ${nocolor}"
   curl -o /tmp/${component}.zip https://roboshop-artifacts.s3.amazonaws.com/${component}.zip &>>log_file
@@ -20,7 +20,7 @@ app_presetup() {
 
   echo -e "${color} extract the content ${nocolor}"
   unzip /tmp/${component}.zip &>>log_file
-
+  echo $?
 
 }
 
@@ -30,10 +30,13 @@ systemd_setup() {
 
   echo -e "${color} Setting up SystemD ${component} Service ${nocolor}"
   cp /root/roboshop-shell-dup/${component}.service /etc/systemd/system/${component}.service &>>$log_file
+  echo $?
+
   echo -e "${color} starting ${component} ${nocolor}"
   systemctl daemon-reload &>>log_file
   systemctl enable ${component} &>>log_file
   systemctl start ${component} &>>log_file
+  echo $?
 }
 
 
