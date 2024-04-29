@@ -1,3 +1,4 @@
+source common.sh
 component=catalogue
 color="\e[36m"
 nocolor="\e[0m"
