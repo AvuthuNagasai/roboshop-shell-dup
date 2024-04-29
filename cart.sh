@@ -25,11 +25,10 @@ unzip /tmp/${component}.zip &>>log_file
 echo -e "${color} download the dependencies ${nocolor}"
 cd ${app_path} &>>log_file
 npm install &>>log_file
-echo -e "\e[33m Setting up SystemD ${component} Service ${nocolor}"
+echo -e "${app_path} Setting up SystemD ${component} Service ${nocolor}"
 cp  /root/roboshop-shell-dup/${component}.service /etc/systemd/system/${component}.service &>>log_file
 
-
-echo -e "\e[33m starting ${component} ${nocolor}"
+echo -e "${app_path} starting ${component} ${nocolor}"
 
 systemctl daemon-reload &>>log_file
 systemctl enable ${component} &>>log_file
