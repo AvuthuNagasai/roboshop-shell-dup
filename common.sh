@@ -43,7 +43,7 @@ systemd_setup() {
   echo -e "${color} Setting up SystemD ${component} Service ${nocolor}"
   cp /root/roboshop-shell-dup/${component}.service /etc/systemd/system/${component}.service &>>$log_file
   stat_check $?
-   sed -i -e "s/roboshop_app_password/$1" /root/roboshop-shell-dup/${component}.service
+  sed -i -e "s/roboshop_app_password/$roboshop_app_password/" /root/roboshop-shell-dup/$component.service
   echo -e "${color} starting ${component} ${nocolor}"
   systemctl daemon-reload &>>log_file
   systemctl enable ${component} &>>log_file
