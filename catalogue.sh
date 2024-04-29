@@ -26,7 +26,7 @@ echo -e "\e[33m Setting up SystemD Catalogue Service ${nocolor}"
 cp  /root/roboshop-shell/$component.service /etc/systemd/system/$component.service
 
 
-echo -e "\e[33m starting catalogue ${nocolor}"
+echo -e "${color} starting catalogue ${nocolor}"
 
 systemctl daemon-reload
 systemctl enable $component
@@ -38,5 +38,5 @@ cp /root/roboshop-shell/mongodb.repo /etc/yum.repos.d/mongo.repo &>>/tmp/robosho
 echo -e "${color} install Mongodb server ${nocolor}"
 dnf install mongodb-org-shell -y &>>/tmp/roboshop.log
 
-echo -e "\e[33m Loading List of products we want to sell ${nocolor}"
+echo -e "${color} Loading List of products we want to sell ${nocolor}"
 mongo --host mongodb-dev.devopsb73.tech </app/schema/$component.js
