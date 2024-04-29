@@ -1,9 +1,5 @@
 source common.sh
 component=cart
-color="\e[36m"
-nocolor="\e[0m"
-log_file="/tmp/roboshop.log"
-app_path="/app"
 
 echo -e "${color} enabling nodejs version 18 ${nocolor}"
 dnf module disable nodejs -y &>>log_file
