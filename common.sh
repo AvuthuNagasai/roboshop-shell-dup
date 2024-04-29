@@ -61,18 +61,18 @@ nodejs() {
   echo -e "${color} enabling nodejs version 18 ${nocolor}"
   dnf module disable nodejs -y &>>log_file
   dnf module enable nodejs:18 -y &>>log_file
-
+  stat_check $?
   echo -e "${color} installing nodejs ${nocolor}"
   dnf install nodejs -y &>>log_file
-
+  stat_check $?
   app_presetup
 
   echo -e "${color} download the dependencies ${nocolor}"
   cd ${app_path} &>>log_file
   npm install &>>log_file
-
+  stat_check $?
   systemd_setup
-
+  stat_check $?
 
 }
 
@@ -83,27 +83,30 @@ mongo_schema_setup(){
 
   echo -e "${color} install Mongodb server ${nocolor}"
   dnf install mongodb-org-shell -y &>>$log_file
-
+  stat_check $?
   echo -e "${color} Loading List of products we want to sell ${nocolor}"
   mongo --host mongodb-dev.devopsb73.tech <${app_path}/schema/$component.js &>>$log_file
+  stat_check $?
 }
+
 
 
 mysql_schema_setup() {
 
   echo -e "${color} installing mysql ${nocolor}"
   dnf install mysql -y &>>$log_file
+  stat_check $?
   echo -e "${color} Loading Schema ${nocolor}"
-  mysql -h mysql-dev.devopsb73.tech -uroot -pRoboShop@1 < ${app_path}/schema/${component}.sql &>>$log_file
+  mysql -h mysql-dev.devopsb73.tech -uroot -p${mysql_root_password} < ${app_path}/schema/${component}.sql &>>$log_file
 
-
+  stat_check $?
 }
 
 maven() {
   echo -e "${color} installing maven ${nocolor}"
 
   dnf install maven -y &>>$log_file
-
+  stat_check $?
   app_presetup
 
   echo -e "${color} download the dependencies & build the application ${nocolor}"
@@ -112,15 +115,15 @@ maven() {
   mv target/${component}-1.0.jar ${component}.jar &>>$log_file
 
   mysql_schema_setup
-
+  stat_check $?
   systemd_setup
-
+  stat_check $?
 }
 
 python() {
   echo -e "${color} Install Python${nocolor}"
   yum install python36 gcc python3-devel -y &>>$log_file
-   # shellcheck disable=SC1009
+
    stat_check $?
   app_presetup
   
@@ -131,6 +134,6 @@ python() {
    stat_check $?
 
    systemd_setup
-
+   stat_check $?
 
    }
