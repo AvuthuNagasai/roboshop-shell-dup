@@ -11,10 +11,13 @@ app_presetup() {
 
   echo -e "${color} create app directory ${nocolor}"
   rm -rf ${app_path} &>>log_file
+
   mkdir ${app_path} &>>log_file
+
   echo -e "${color} Download the application code to created app directory ${nocolor}"
   curl -o /tmp/${component}.zip https://roboshop-artifacts.s3.amazonaws.com/${component}.zip &>>log_file
   cd ${app_path} &>>log_file
+
   echo -e "${color} extract the content ${nocolor}"
   unzip /tmp/${component}.zip &>>log_file
 
@@ -93,6 +96,17 @@ maven() {
 
   systemd_setup
 
+}
 
+python() {
+  echo -e "${color} Install Python${nocolor}"
+  yum install python36 gcc python3-devel -y &>>$log_file
 
+  app_presetup
+  
+  echo -e "${color} Install Application Dependencies ${nocolor}"
+  cd /app
+  pip3.6 install -r requirements.txt &>>$log_file
+
+  systemd_setup
 }
