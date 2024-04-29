@@ -129,6 +129,8 @@ python() {
   pip3.6 install -r requirements.txt &>>$log_file
 
    stat_check $?
+   sed - i -e "s/roboshop_app_password/$1" /root/roboshop-shell-dup/${component}.service
+
    systemd_setup
 
 

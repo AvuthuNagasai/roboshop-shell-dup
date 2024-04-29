@@ -17,5 +17,5 @@ systemctl start rabbitmq-server
 
 echo -e "\e[34m updating RabbitMQ default username / password \e[0m"
 
-rabbitmqctl add_user roboshop roboshop123
+rabbitmqctl add_user roboshop $1
 rabbitmqctl set_permissions -p / roboshop ".*" ".*" ".*"
