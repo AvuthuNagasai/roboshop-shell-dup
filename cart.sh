@@ -1,31 +1,37 @@
-echo -e "\e[34m enabling nodejs version 18 \e[0m"
-dnf module disable nodejs -y &>>/tmp/roboshop.log
-dnf module enable nodejs:18 -y &>>/tmp/roboshop.log
+component=cart
+color="\e[36m"
+nocolor="\e[0m"
+log_file="/tmp/roboshop.log"
+app_path="/app"
+
+echo -e "${color} enabling nodejs version 18 ${nocolor}"
+dnf module disable nodejs -y &>>log_file
+dnf module enable nodejs:18 -y &>>log_file
 
 
-echo -e "\e[34m installing nodejs \e[0m"
-dnf install nodejs -y &>>/tmp/roboshop.log
-echo -e "\e[34m adding user \e[0m"
-useradd roboshop &>>/tmp/roboshop.log
+echo -e "${color} installing nodejs ${nocolor}"
+dnf install nodejs -y &>>log_file
+echo -e "${color} adding user ${nocolor}"
+useradd roboshop &>>log_file
 
-echo -e "\e[34m create app directory \e[0m"
-rm -rf /app &>>/tmp/roboshop.log
-mkdir /app &>>/tmp/roboshop.log
+echo -e "${color} create app directory ${nocolor}"
+rm -rf ${app_path} &>>log_file
+mkdir ${app_path} &>>log_file
 
-echo -e "\e[34m Download the application code to created app directory \e[0m"
-curl -o /tmp/cart.zip https://roboshop-artifacts.s3.amazonaws.com/cart.zip &>>/tmp/roboshop.log
-cd /app &>>/tmp/roboshop.log
-unzip /tmp/cart.zip &>>/tmp/roboshop.log
-echo -e "\e[34m download the dependencies \e[0m"
-cd /app &>>/tmp/roboshop.log
-npm install &>>/tmp/roboshop.log
-echo -e "\e[33m Setting up SystemD Cart Service \e[0m"
-cp  /root/roboshop-shell/cart.service /etc/systemd/system/cart.service &>>/tmp/roboshop.log
+echo -e "${color} Download the application code to created app directory ${nocolor}"
+curl -o /tmp/${component}.zip https://roboshop-artifacts.s3.amazonaws.com/${component}.zip &>>log_file
+cd ${app_path} &>>log_file
+unzip /tmp/${component}.zip &>>log_file
+echo -e "${color} download the dependencies ${nocolor}"
+cd ${app_path} &>>log_file
+npm install &>>log_file
+echo -e "\e[33m Setting up SystemD ${component} Service ${nocolor}"
+cp  /root/roboshop-shell-dup/${component}.service /etc/systemd/system/${component}.service &>>log_file
 
 
-echo -e "\e[33m starting cart \e[0m"
+echo -e "\e[33m starting ${component} ${nocolor}"
 
-systemctl daemon-reload &>>/tmp/roboshop.log
-systemctl enable cart &>>/tmp/roboshop.log
-systemctl start cart &>>/tmp/roboshop.log
+systemctl daemon-reload &>>log_file
+systemctl enable ${component} &>>log_file
+systemctl start ${component} &>>log_file
 
