@@ -2,8 +2,12 @@ color="\e[36m"
 nocolor="\e[0m"
 log_file="/tmp/roboshop.log"
 app_path="/app"
+user_id=$(id -u)
 
-
+if [ $user_id -ne 0 ]; then
+  echo " script should be running as sudo"
+  exit 1
+ fi
 stat_check() {
   if [ $? -eq 0 ]; then
           echo "success"
