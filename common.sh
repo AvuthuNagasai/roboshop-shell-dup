@@ -3,7 +3,14 @@ nocolor="\e[0m"
 log_file="/tmp/roboshop.log"
 app_path="/app"
 
-# shellcheck disable=SC1073
+
+stat_check() {
+  if [ $? -eq 0 ]; then
+          echo "success"
+    else
+          echo "failure"
+    fi
+}
 app_presetup() {
 
   echo -e "${color} adding user ${nocolor}"
@@ -12,37 +19,20 @@ app_presetup() {
   if [ $? -eq 1 ]; then
   useradd roboshop &>>log_file
   fi
-  if [ $? -eq 0 ]; then
-        echo "success"
-  else
-        echo "failure"
-  fi
+  stat_check $?
   echo -e "${color} create app directory ${nocolor}"
   rm -rf ${app_path} &>>log_file
   mkdir ${app_path} &>>log_file
-  if [ $? -eq 0 ]; then
-        echo "success"
-  else
-        echo "failure"
-  fi
+  stat_check $?
 
   echo -e "${color} Download the application code to created app directory ${nocolor}"
   curl -o /tmp/${component}.zip https://roboshop-artifacts.s3.amazonaws.com/${component}.zip &>>log_file
   cd ${app_path} &>>log_file
-
-  if [ $? -eq 0 ]; then
-        echo "success"
-  else
-        echo "failure"
-  fi
+  stat_check $?
 
   echo -e "${color} extract the content ${nocolor}"
   unzip /tmp/${component}.zip &>>log_file
-  if [ $? -eq 0 ]; then
-        echo "success"
-  else
-        echo "failure"
-  fi
+  stat_check $?
 
 }
 
@@ -62,11 +52,7 @@ systemd_setup() {
   systemctl daemon-reload &>>log_file
   systemctl enable ${component} &>>log_file
   systemctl start ${component} &>>log_file
-  if [ $? -eq 0 ]; then
-        echo "success"
-  else
-        echo "failure"
-  fi
+  stat_check $?
 }
 
 
@@ -135,23 +121,14 @@ python() {
   echo -e "${color} Install Python${nocolor}"
   yum install python36 gcc python3-devel -y &>>$log_file
    # shellcheck disable=SC1009
-   if [ $? -eq 0 ]; then
-      echo "success"
-   else
-      echo "failure"
-   fi
+   stat_check $?
   app_presetup
   
   echo -e "${color} Install Application Dependencies ${nocolor}"
   cd /app
   pip3.6 install -r requirements.txt &>>$log_file
-   # shellcheck disable=SC1046
-   if [ $? -eq 0 ]; then
-       echo "success"
-   else
-       echo "failure"
-   fi
 
+   stat_check $?
    systemd_setup
 
 
