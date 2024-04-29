@@ -23,7 +23,7 @@ echo -e "${color} download the dependencies ${nocolor}"
 cd /app
 npm install &>>/tmp/roboshop.log
 echo -e "${color} Setting up SystemD Catalogue Service ${nocolor}"
-cp  /root/roboshop-shell/$component.service /etc/systemd/system/$component.service
+cp  /root/roboshop-shell-dup/$component.service /etc/systemd/system/$component.service
 
 
 echo -e "${color} starting catalogue ${nocolor}"
@@ -33,7 +33,7 @@ systemctl enable $component &>>/tmp/roboshop.log
 systemctl start $component &>>/tmp/roboshop.log
 
 echo -e "${color} copy mongodb repo file ${nocolor}"
-cp /root/roboshop-shell/mongodb.repo /etc/yum.repos.d/mongo.repo &>>/tmp/roboshop.log
+cp /root/roboshop-shell-dup/mongodb.repo /etc/yum.repos.d/mongo.repo &>>/tmp/roboshop.log
 
 echo -e "${color} install Mongodb server ${nocolor}"
 dnf install mongodb-org-shell -y &>>/tmp/roboshop.log
