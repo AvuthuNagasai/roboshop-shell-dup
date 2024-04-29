@@ -18,7 +18,7 @@ mkdir /app
 echo -e "${color} Download the application code to created app directory ${nocolor}"
 curl -o /tmp/$component.zip https://roboshop-artifacts.s3.amazonaws.com/$component.zip &>>/tmp/roboshop.log
 cd /app
-unzip /tmp/$component.zip
+unzip /tmp/$component.zip &>>/tmp/roboshop.log
 echo -e "${color} download the dependencies ${nocolor}"
 cd /app
 npm install &>>/tmp/roboshop.log
@@ -39,4 +39,4 @@ echo -e "${color} install Mongodb server ${nocolor}"
 dnf install mongodb-org-shell -y &>>/tmp/roboshop.log
 
 echo -e "${color} Loading List of products we want to sell ${nocolor}"
-mongo --host mongodb-dev.devopsb73.tech </app/schema/$component.js
+mongo --host mongodb-dev.devopsb73.tech </app/schema/$component.js &>>/tmp/roboshop.log
