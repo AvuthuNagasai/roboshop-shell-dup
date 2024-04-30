@@ -1,6 +1,6 @@
 source common.sh
 echo -e "\e[33m Setup the MongoDB repo file \e[0m"
-cp /root/roboshop-shell/mongodb.repo /etc/yum.repos.d/mongo.repo &>>/tmp/roboshop.log
+cp /root/roboshop-shell-dup/mongodb.repo /etc/yum.repos.d/mongo.repo &>>/tmp/roboshop.log
 
 echo -e "\e[31m Installing mongodb \e[0m"
 dnf install mongodb-org -y &>>/tmp/roboshop.log
