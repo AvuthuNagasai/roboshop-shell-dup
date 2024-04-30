@@ -97,7 +97,7 @@ mysql_schema_setup() {
   dnf install mysql -y &>>$log_file
   stat_check $?
   echo -e "${color} Loading Schema ${nocolor}"
-  mysql -h mysql-dev.devopsb73.tech -uroot -p${mysql_root_password} < ${app_path}/schema/${component}.sql &>>$log_file
+  mysql -h mysql-dev.devopsb73.tech -uroot -p${mysql_root_password} < /app/schema/${component}.sql &>>$log_file
 
   stat_check $?
 }
