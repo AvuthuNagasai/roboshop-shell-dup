@@ -97,7 +97,7 @@ mysql_schema_setup() {
   dnf install mysql -y &>>$log_file
   stat_check $?
   echo -e "${color} Loading Schema ${nocolor}"
-  mysql -h mysql-dev.devopsb73.tech -uroot -p${mysql_root_password} < /app/schema/${component}.sql &>>$log_file
+  mysql -h mysql-dev.devopsb73.tech -uroot -pRoboShop@1 < /app/schema/${component}.sql &>>$log_file
 
   stat_check $?
 }
@@ -115,6 +115,7 @@ maven() {
   mv target/${component}-1.0.jar ${component}.jar &>>$log_file
 
   mysql_schema_setup
+
   stat_check $?
   systemd_setup
   stat_check $?
