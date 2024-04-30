@@ -91,16 +91,15 @@ mongo_schema_setup() {
   stat_check $?
 }
 
-
 mysql_schema_setup() {
-
-  echo -e "${color} installing mysql ${nocolor}"
-  dnf install mysql -y &>>$log_file
+  echo -e "${color} Install MySQL Client ${nocolor}"
+  yum install mysql -y  &>>$log_file
   stat_check $?
-  echo -e "${color} Loading Schema ${nocolor}"
-  mysql -h mysql-dev.devopsb73.tech -uroot -pRoboShop@1 < /app/schema/${component}.sql &>>$log_file
 
+  echo -e "${color} Load Schema ${nocolor}"
+  mysql -h mysql-dev.devopsb73.store -uroot -p${mysql_root_password} </app/schema/${component}.sql   &>>$log_file
   stat_check $?
+
 }
 
 maven() {
