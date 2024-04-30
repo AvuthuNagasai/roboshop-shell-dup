@@ -14,9 +14,9 @@ echo -e "\e[33m Start MySQL Service \e[0m"
 systemctl enable mysqld &>>/tmp/roboshop.log
 
 systemctl start mysqld &>>/tmp/roboshop.log
+stat_check $?
 
-echo -e "\e[33m Start change the default root password  \e[0m"
-mysql_secure_installation --set-root-pass RoboShop@1
-echo -e "\e[33m check the new password working or not  \e[0m"
-mysql -uroot -pRoboShop@1
- stat_check $?
+echo -e " ${color}  Setup MySQL Password  ${nocolor} "
+mysql_secure_installation --set-root-pass $1 &>>/tmp/roboshop.log
+stat_check $?
+
