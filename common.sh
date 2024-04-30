@@ -76,19 +76,20 @@ nodejs() {
 
 }
 
-mongo_schema_setup(){
 
-  echo -e "${color} copy mongodb repo file ${nocolor}"
-  cp /root/roboshop-shell-dup/mongodb.repo /etc/yum.repos.d/mongo.repo &>>$log_file
-
-  echo -e "${color} install Mongodb server ${nocolor}"
-  dnf install mongodb-org-shell -y &>>$log_file
+mongo_schema_setup() {
+  echo -e "${color} Copy MongoDB Repo file ${nocolor}"
+  cp /root/roboshop-shell-dup/mongodb.repo /etc/yum.repos.d/mongodb.repo  &>>$log_file
   stat_check $?
-  echo -e "${color} Loading List of products we want to sell ${nocolor}"
-  mongo --host mongodb-dev.devopsb73.tech <${app_path}/schema/$component.js &>>$log_file
+
+  echo -e "${color} Install MongoDB Client ${nocolor}"
+  yum install mongodb-org-shell -y  &>>$log_file
+  stat_check $?
+
+  echo -e "${color} Load Schema ${nocolor}"
+  mongo --host mongodb-dev.devopsb73.store <${app_path}/schema/$component.js  &>>$log_file
   stat_check $?
 }
-
 
 
 mysql_schema_setup() {
